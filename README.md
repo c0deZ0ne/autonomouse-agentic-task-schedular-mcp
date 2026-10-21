@@ -13,6 +13,7 @@ The current agent can discover tools from a local MCP server, ask a language mod
 - Agent state tracking for actions, observations, and final answers
 - An MCP server with time, password-generation, and dice-rolling tools
 - An asynchronous MCP client for connecting, discovering tools, and invoking them
+- An LLM-based task decomposer that converts multi-part requests into ordered actions
 - Small tests and learning exercises for individual components
 
 ## Skills Gained
@@ -30,6 +31,7 @@ The current agent can discover tools from a local MCP server, ask a language mod
 - Calling OpenAI-compatible chat and embedding APIs
 - Running local models through Ollama
 - Prompt design for planning and response generation
+- Prompt design and output parsing for task decomposition
 - Vector embeddings and cosine similarity
 - Basic information retrieval and knowledge-base design
 
@@ -40,6 +42,7 @@ The current agent can discover tools from a local MCP server, ask a language mod
 - State and observation management
 - Tool selection, discovery, and execution
 - Separation of planning, execution, memory, and answer formatting
+- Breaking complex requests into smaller, ordered tasks
 
 ### Protocols and software practices
 
@@ -59,12 +62,14 @@ AI-agent-udemy/
 |   |-- executor.py                # Tool execution
 |   |-- agent_state.py             # State and step management
 |   |-- format_answer.py           # Final response generation
+|   |-- decompose_task.py          # LLM-based task decomposition exercise
 |   |-- mcp_client/mcp_client.py   # MCP connection and tool calls
 |   `-- mcp_server/server.py       # Local MCP tools
 |-- Day06_P4/                      # Retrieval and embedding exercises
 |-- Day09_P2/                      # Earlier agent implementation
 |-- tools.py                       # Reusable Python utilities
 |-- test_*.py                      # Learning tests and experiments
+|-- SKILL_LEARNED.md               # Technical skills and code evidence
 `-- ACADEMIC_RESUME_TEMPLATE.md    # Résumé template for internship use
 ```
 
@@ -97,9 +102,9 @@ pip install openai python-dotenv fastmcp numpy
 Create or update `.env` in the repository root:
 
 ```env
-BASE_URL=http://localhost:11434/v1
-API_KEY=ollama
-MODEL=qwen3:4b
+BASE_URL=https://api.openai.com/v1
+API_KEY=your_openai_api_key
+MODEL=gpt-4o-mini
 ```
 
 Do not commit real API keys.
@@ -138,9 +143,12 @@ Roll two dice.
 5. The loop records the result and continues until the planner returns `FINISH` or the step limit is reached.
 6. `format_answer.py` converts the recorded observations into a user-facing answer.
 
+The separate `decompose_task.py` exercise demonstrates how an LLM can turn a multi-part request into a list of smaller actions. It is not yet connected to the main agent loop.
+
 ## Current Limitations
 
 - The planner selects a tool name but does not yet generate tool arguments.
+- Task decomposition is currently a standalone prototype and is not integrated into execution.
 - The main workflow has limited automated test coverage.
 - Some root-level files and dated folders are earlier learning exercises rather than production code.
 - Error handling and validation can be strengthened.
@@ -159,7 +167,10 @@ Roll two dice.
 
 See [ACADEMIC_RESUME_TEMPLATE.md](ACADEMIC_RESUME_TEMPLATE.md) for an academic résumé format aimed at a software or AI internship. Replace every placeholder and keep only claims you can explain in an interview.
 
+## Training Skills
+
+See [SKILL_LEARNED.md](SKILL_LEARNED.md) for a detailed list of the technical skills earned during the training and the project files that demonstrate each skill.
+
 ## Status
 
 This is a learning portfolio and work in progress, not a production-ready agent.
-# autonomouse-agentic-task-schedular-mcp
