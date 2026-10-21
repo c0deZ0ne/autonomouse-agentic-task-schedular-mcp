@@ -46,7 +46,7 @@ Next Action:
 """
 
     response = client.chat.completions.create(
-        model=os.getenv("MODEL", "qween3:1.7b"),
+        model=os.getenv("MODEL", "qwen3:1.7b"),
         messages=[
             {
                 "role": "system",
